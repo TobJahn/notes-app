@@ -14,7 +14,12 @@
 
   <main class="layout">
     <section class="list-pane" aria-label="All notes">
+      <div id="search-bar" class="search-bar" hidden>
+        <label class="visually-hidden" for="search">Search notes</label>
+        <input id="search" class="search" type="search" placeholder="Search notes…" autocomplete="off">
+      </div>
       <p id="empty-state" class="empty-state" hidden>No notes yet. Click New note to create your first one.</p>
+      <p id="no-results" class="empty-state" hidden></p>
       <ul id="note-list" class="note-list"></ul>
     </section>
 

@@ -9,6 +9,9 @@ const els = {
   newNote: document.getElementById("new-note"),
   list: document.getElementById("note-list"),
   emptyState: document.getElementById("empty-state"),
+  searchBar: document.getElementById("search-bar"),
+  search: document.getElementById("search"),
+  noResults: document.getElementById("no-results"),
   placeholder: document.getElementById("editor-placeholder"),
   editor: document.getElementById("editor"),
   back: document.getElementById("back"),
@@ -75,6 +78,21 @@ function formatDate(timestamp) {
   });
 }
 
+// True if the note's title or body contains the search text (case-insensitive).
+function matchesSearch(note, query) {
+  if (query === "") return true;
+  return (note.title + "\n" + note.body).toLowerCase().includes(query);
+}
+
+function getSearchQuery() {
+  return els.search.value.trim().toLowerCase();
+}
+
+function clearSearch() {
+  els.search.value = "";
+  renderList();
+}
+
 function setStatus(text) {
   els.status.textContent = text;
 }
@@ -137,6 +155,7 @@ function openNote(id) {
 
 function createNote() {
   flushSave();
+  els.search.value = ""; // so the new note isn't hidden by an old search
 
   // Reuse the open note if it is still a blank, unsaved draft.
   if (!currentNote || !isEmptyNote(currentNote) || isStored(currentNote.id)) {
@@ -184,9 +203,20 @@ function showEditor() {
 }
 
 function renderList() {
-  const sorted = [...notes].sort((a, b) => b.updatedAt - a.updatedAt);
-  els.emptyState.hidden = sorted.length > 0;
-  els.list.replaceChildren(...sorted.map(renderNoteItem));
+  const hasNotes = notes.length > 0;
+  const query = getSearchQuery();
+  const visible = notes
+    .filter((note) => matchesSearch(note, query))
+    .sort((a, b) => b.updatedAt - a.updatedAt);
+
+  els.emptyState.hidden = hasNotes;
+  els.searchBar.hidden = !hasNotes;
+
+  const showNoResults = hasNotes && visible.length === 0;
+  els.noResults.hidden = !showNoResults;
+  els.noResults.textContent = showNoResults ? `No notes match "${els.search.value.trim()}".` : "";
+
+  els.list.replaceChildren(...visible.map(renderNoteItem));
 }
 
 function renderNoteItem(note) {
@@ -232,6 +262,12 @@ els.newNote.addEventListener("click", createNote);
 els.back.addEventListener("click", closeEditor);
 els.title.addEventListener("input", scheduleSave);
 els.body.addEventListener("input", scheduleSave);
+
+// Search: narrow the list as you type; Escape clears it.
+els.search.addEventListener("input", renderList);
+els.search.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") clearSearch();
+});
 
 // Enter in the title jumps to the body (Enter in the body adds a new line as usual).
 els.title.addEventListener("keydown", (event) => {
