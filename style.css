@@ -110,6 +110,33 @@ body {
   padding: 16px 24px;
 }
 
+/* ---------- Search ---------- */
+.search-bar {
+  position: sticky;
+  top: 0;
+  padding: 12px 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.search-bar[hidden] {
+  display: none;
+}
+
+.search {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+
+.search::placeholder {
+  color: var(--muted);
+}
+
 /* ---------- Notes list ---------- */
 .empty-state {
   margin: 0;
