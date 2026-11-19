@@ -1,0 +1,262 @@
+/* ---------- Colours and basics ---------- */
+:root {
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --text: #1f2328;
+  --muted: #57606a;
+  --border: #d0d7de;
+  --primary: #0b5cad;
+  --primary-hover: #094a8c;
+  --primary-text: #ffffff;
+  --active: #e7f0fb;
+  --danger: #b42318;
+  --focus: #0b5cad;
+  --header-height: 56px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  padding: 6px 14px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-text);
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-link {
+  background: none;
+  color: var(--primary);
+  padding: 4px 0;
+}
+
+/* ---------- Header ---------- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  padding: 0 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+/* ---------- Two-column layout ---------- */
+.layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+}
+
+.list-pane {
+  overflow-y: auto;
+  border-right: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.editor-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 16px 24px;
+}
+
+/* ---------- Notes list ---------- */
+.empty-state {
+  margin: 0;
+  padding: 24px 16px;
+  color: var(--muted);
+}
+
+.note-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.note-item {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--border);
+}
+
+.note-item.is-active {
+  background: var(--active);
+}
+
+.note-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 16px;
+  background: none;
+  border: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.note-open:hover {
+  background: rgba(11, 92, 173, 0.06);
+}
+
+.note-item-title,
+.note-item-preview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-item-title {
+  font-weight: 600;
+}
+
+.note-item-preview,
+.note-item-date {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.note-delete {
+  flex-shrink: 0;
+  margin: 8px;
+  align-self: center;
+  background: none;
+  color: var(--danger);
+  font-size: 0.875rem;
+}
+
+.note-delete:hover {
+  background: #fdecea;
+}
+
+/* ---------- Editor ---------- */
+.editor-placeholder {
+  margin: auto;
+  color: var(--muted);
+}
+
+.editor {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editor[hidden] {
+  display: none;
+}
+
+.back {
+  display: none;
+  align-self: flex-start;
+}
+
+.note-title,
+.note-body {
+  font: inherit;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.note-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.note-body {
+  flex: 1;
+  min-height: 200px;
+  resize: none;
+}
+
+.save-status {
+  margin: 0;
+  min-height: 1.5em;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ---------- Narrow screens: show list OR editor ---------- */
+@media (max-width: 699px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .list-pane {
+    border-right: 0;
+  }
+
+  .editor-pane {
+    display: none;
+    padding: 12px 16px;
+  }
+
+  body.is-editing .list-pane {
+    display: none;
+  }
+
+  body.is-editing .editor-pane {
+    display: flex;
+  }
+
+  .back {
+    display: inline-block;
+  }
+}
