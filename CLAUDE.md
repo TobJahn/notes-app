@@ -13,6 +13,9 @@ Core features:
 
 Stretch feature (after the core works): a search/filter box that narrows the list as you type, matching title and body, case-insensitive.
 
+Extra features:
+- Keyboard shortcuts: `N` new note and `/` focus search (both only when not typing in a field, no modifier keys); `Esc` closes the open note (after saving) and clears the search when in the search box. Shortcuts are shown as hints in the UI.
+
 ## Stack
 - Plain HTML, CSS and JavaScript in `index.html`, `style.css` and `app.js`.
 - No frameworks, libraries, build step or backend.
@@ -50,4 +53,5 @@ Stretch feature (after the core works): a search/filter box that narrows the lis
 - Enter in the title field moves to the body; Enter in the body adds a new line.
 - Notes survive a reload.
 - Search/filter narrows the list as you type.
+- Keyboard shortcuts work and never fire while typing in the title, body or search box.
 - All features work on the live URL in a fresh incognito window.
