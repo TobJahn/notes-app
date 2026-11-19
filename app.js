@@ -186,11 +186,19 @@ function deleteNote(id) {
 
 function closeEditor() {
   flushSave();
+  const closedId = currentNote ? currentNote.id : null;
   currentNote = null;
   els.editor.hidden = true;
   els.placeholder.hidden = false;
   document.body.classList.remove("is-editing");
   renderList();
+  focusListItem(closedId);
+}
+
+// Put keyboard focus back on a note in the list (or on New note if it's not shown).
+function focusListItem(id) {
+  const button = id ? els.list.querySelector(`[data-id="${CSS.escape(id)}"]`) : null;
+  (button || els.newNote).focus();
 }
 
 // ---------- Rendering ----------
@@ -229,6 +237,7 @@ function renderNoteItem(note) {
   const openButton = document.createElement("button");
   openButton.type = "button";
   openButton.className = "note-open";
+  openButton.dataset.id = note.id;
   if (isActive) openButton.setAttribute("aria-current", "true");
   openButton.addEventListener("click", () => openNote(note.id));
 
@@ -274,6 +283,40 @@ els.title.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.isComposing) {
     event.preventDefault();
     els.body.focus();
+  }
+});
+
+// Keyboard shortcuts: N = new note, / = search, Esc = close the open note.
+function isTypingTarget(target) {
+  return (
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement ||
+    (target instanceof HTMLElement && target.isContentEditable)
+  );
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.defaultPrevented || event.isComposing) return;
+  if (event.ctrlKey || event.metaKey || event.altKey) return; // leave browser shortcuts alone
+
+  if (event.key === "Escape") {
+    // In the search box, Escape clears the search instead (handled above).
+    if (currentNote && event.target !== els.search) {
+      event.preventDefault();
+      closeEditor();
+    }
+    return;
+  }
+
+  if (isTypingTarget(event.target)) return; // never steal letters while typing
+
+  if (event.key === "n" || event.key === "N") {
+    event.preventDefault();
+    createNote();
+  } else if (event.key === "/" && !els.searchBar.hidden) {
+    event.preventDefault();
+    els.search.focus();
+    els.search.select();
   }
 });
 

@@ -9,14 +9,14 @@
 <body>
   <header class="app-header">
     <h1 class="app-title">Notes</h1>
-    <button type="button" id="new-note" class="btn btn-primary">New note</button>
+    <button type="button" id="new-note" class="btn btn-primary" title="New note (N)" aria-keyshortcuts="N">New note</button>
   </header>
 
   <main class="layout">
     <section class="list-pane" aria-label="All notes">
       <div id="search-bar" class="search-bar" hidden>
         <label class="visually-hidden" for="search">Search notes</label>
-        <input id="search" class="search" type="search" placeholder="Search notes…" autocomplete="off">
+        <input id="search" class="search" type="search" placeholder="Search notes… (/)" autocomplete="off" aria-keyshortcuts="/">
       </div>
       <p id="empty-state" class="empty-state" hidden>No notes yet. Click New note to create your first one.</p>
       <p id="no-results" class="empty-state" hidden></p>
@@ -24,7 +24,12 @@
     </section>
 
     <section class="editor-pane" aria-label="Note editor">
-      <p id="editor-placeholder" class="editor-placeholder">Select a note or click New note.</p>
+      <div id="editor-placeholder" class="editor-placeholder">
+        <p>Select a note or click New note.</p>
+        <p class="shortcut-hint">
+          Shortcuts: <kbd>N</kbd> new note · <kbd>/</kbd> search · <kbd>Esc</kbd> close note
+        </p>
+      </div>
 
       <div id="editor" class="editor" hidden>
         <button type="button" id="back" class="btn btn-link back">← All notes</button>
