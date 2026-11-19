@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1 class="app-title">Notes</h1>
+    <button type="button" id="new-note" class="btn btn-primary">New note</button>
+  </header>
+
+  <main class="layout">
+    <section class="list-pane" aria-label="All notes">
+      <p id="empty-state" class="empty-state" hidden>No notes yet. Click New note to create your first one.</p>
+      <ul id="note-list" class="note-list"></ul>
+    </section>
+
+    <section class="editor-pane" aria-label="Note editor">
+      <p id="editor-placeholder" class="editor-placeholder">Select a note or click New note.</p>
+
+      <div id="editor" class="editor" hidden>
+        <button type="button" id="back" class="btn btn-link back">← All notes</button>
+
+        <label class="visually-hidden" for="note-title">Title</label>
+        <input id="note-title" class="note-title" type="text" placeholder="Title" autocomplete="off">
+
+        <label class="visually-hidden" for="note-body">Note</label>
+        <textarea id="note-body" class="note-body" placeholder="Start writing…"></textarea>
+
+        <p id="save-status" class="save-status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
